@@ -3,30 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Inscrição – Campo de Férias 2026 · Canas de Santa Maria</title>
-
-  <meta name="description" content="Inscrição para o Campo de Férias 2026 – Canas de Santa Maria. 1 a 31 de julho, EB Canas de Santa Maria.">
-
+  <meta name="description" content="Inscrição para o Campo de Férias 2026 – Canas de Santa Maria. Julho e setembro, EB Canas de Santa Maria.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Inscrição – Campo de Férias 2026">
-  <meta property="og:description" content="Canas de Santa Maria · 1 a 31 de julho · EB Canas de Santa Maria · Crianças dos 6 aos 12 anos.">
+  <meta property="og:description" content="Canas de Santa Maria · Julho e setembro · EB Canas de Santa Maria · Crianças dos 6 aos 12 anos.">
   <meta property="og:url" content="https://atlcanassantamaria.github.io/inscricao/">
   <meta property="og:image" content="https://atlcanassantamaria.github.io/inscricao/preview-campo-ferias-2026.jpg">
   <meta property="og:image:secure_url" content="https://atlcanassantamaria.github.io/inscricao/preview-campo-ferias-2026.jpg">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Inscrição – Campo de Férias 2026">
-  <meta name="twitter:description" content="Canas de Santa Maria · 1 a 31 de julho · EB Canas de Santa Maria.">
+  <meta name="twitter:description" content="Canas de Santa Maria · Julho e setembro · EB Canas de Santa Maria.">
   <meta name="twitter:image" content="https://atlcanassantamaria.github.io/inscricao/preview-campo-ferias-2026.jpg">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Nunito', sans-serif; background: #f0fdf4; min-height: 100vh; padding: 32px 16px; color: #1f2937; }
@@ -72,15 +66,25 @@
     .second-resp-title { font-family: 'Fredoka One', cursive; font-size: 14px; color: #1a7a4a; }
     .remove-btn { background: #fee2e2; border: none; color: #b91c1c; border-radius: 8px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; font-weight: 700; line-height: 1; transition: background 0.15s; }
     .remove-btn:hover { background: #fecaca; }
-    .cf-weeks { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    .cf-weeks { display: grid; grid-template-columns: repeat(auto-fit, minmax(76px, 1fr)); gap: 10px; }
     @media (max-width: 480px) { .cf-weeks { grid-template-columns: repeat(3, 1fr); } }
-    .cf-week { background: #fff; border: 2px solid #e5e7eb; border-radius: 14px; padding: 12px 6px; text-align: center; cursor: pointer; transition: all 0.15s; user-select: none; }
+    .cf-week { position: relative; background: #fff; border: 2px solid #e5e7eb; border-radius: 14px; padding: 18px 6px 12px; text-align: center; cursor: pointer; transition: all 0.15s; user-select: none; min-height: 72px; }
     .cf-week:hover { border-color: #3bb273; background: #f0fdf4; }
     .cf-week.active { border-color: #3bb273; background: #d4f0e0; }
     .cf-week-num { font-family: 'Fredoka One', cursive; font-size: 20px; color: #1a7a4a; line-height: 1; }
     .cf-week-dates { font-size: 10px; color: #6b7280; margin-top: 4px; font-weight: 700; }
+    .cf-week-price { position: absolute; top: 5px; right: 7px; background: #ffd93d; color: #7a4e00; border-radius: 999px; padding: 2px 6px; font-size: 10px; font-weight: 800; line-height: 1.2; }
     .weeks-error { font-size: 12px; color: #ef4444; font-weight: 600; margin-top: 8px; display: none; }
     .weeks-error.visible { display: block; }
+
+    .cf-info-box { background: #fff8e1; border: 1.5px solid #ffd93d; border-radius: 14px; padding: 12px 14px; margin-top: 14px; color: #92400e; font-size: 12.5px; line-height: 1.55; }
+    .cf-info-box strong { color: #7a4e00; }
+    .cf-info-title { font-family: 'Fredoka One', cursive; font-size: 15px; color: #92400e; margin-bottom: 8px; }
+    .cf-info-box ul { list-style: none; padding-left: 0; margin: 0 0 8px; }
+    .cf-info-box li { margin: 3px 0; }
+    .cf-interest-box { background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 14px; padding: 16px 18px; margin-top: 16px; }
+    .cf-interest-box .cf-checkbox-label { color: #1f2937; }
+    .cf-interest-question { font-weight: 800; color: #1a7a4a; display:block; margin-bottom: 6px; }
     .cf-reg-box { background: #fff8e1; border: 1.5px solid #ffd93d; border-radius: 14px; padding: 18px; }
     .cf-reg-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
     .cf-reg-label { font-weight: 700; font-size: 13px; color: #92400e; }
@@ -176,7 +180,7 @@
   <div class="cf-hero">
     <div class="cf-hero-badge">Freguesia de Canas de Santa Maria</div>
     <h1>Campo de <span>F&#233;rias</span> 2026</h1>
-    <p>Ficha de inscri&#231;&#227;o &#183; 1 a 31 de julho</p>
+    <p>Ficha de inscri&#231;&#227;o &#183; julho e setembro</p>
     <div class="cf-pills">
       <span class="cf-pill">&#128205; EB Canas de Santa Maria</span>
       <span class="cf-pill">&#128336; 8h00 &#8211; 18h30</span>
@@ -302,27 +306,54 @@
         </div>
         <div class="cf-weeks">
           <div class="cf-week" data-semana="S1 (1-3 jul)" onclick="toggleWeek(this)">
+            <div class="cf-week-price">21€</div>
             <div class="cf-week-num">S1</div>
             <div class="cf-week-dates">1&#8211;3 jul</div>
           </div>
           <div class="cf-week" data-semana="S2 (6-10 jul)" onclick="toggleWeek(this)">
+            <div class="cf-week-price">35€</div>
             <div class="cf-week-num">S2</div>
             <div class="cf-week-dates">6&#8211;10 jul</div>
           </div>
           <div class="cf-week" data-semana="S3 (13-17 jul)" onclick="toggleWeek(this)">
+            <div class="cf-week-price">35€</div>
             <div class="cf-week-num">S3</div>
             <div class="cf-week-dates">13&#8211;17 jul</div>
           </div>
           <div class="cf-week" data-semana="S4 (20-24 jul)" onclick="toggleWeek(this)">
+            <div class="cf-week-price">35€</div>
             <div class="cf-week-num">S4</div>
             <div class="cf-week-dates">20&#8211;24 jul</div>
           </div>
           <div class="cf-week" data-semana="S5 (27-31 jul)" onclick="toggleWeek(this)">
+            <div class="cf-week-price">35€</div>
             <div class="cf-week-num">S5</div>
             <div class="cf-week-dates">27&#8211;31 jul</div>
           </div>
+          <div class="cf-week" data-semana="S6 (1-4 set)" onclick="toggleWeek(this)">
+            <div class="cf-week-price">28€</div>
+            <div class="cf-week-num">S6</div>
+            <div class="cf-week-dates">1&#8211;4 set</div>
+          </div>
+          <div class="cf-week" data-semana="S7 (7-11 set)" onclick="toggleWeek(this)">
+            <div class="cf-week-price">35€</div>
+            <div class="cf-week-num">S7</div>
+            <div class="cf-week-dates">7&#8211;11 set</div>
+          </div>
         </div>
         <p class="weeks-error" id="weeks-error">Seleciona pelo menos uma semana.</p>
+
+        <div class="cf-info-box">
+          <p><strong>Irm&#227;os:</strong> desconto de 10% (semana).</p>
+          <p>* Valor mencionado n&#227;o contempla o almo&#231;o. Cada encarregado de educa&#231;&#227;o ser&#225; respons&#225;vel por tirar a senha do seu educando na plataforma Inovar (valor: 1,46&#8364;).</p>
+        </div>
+
+        <div class="cf-interest-box">
+          <div class="cf-checkbox-row">
+            <input type="checkbox" id="interesse-agosto" name="interesse-agosto">
+            <label class="cf-checkbox-label" for="interesse-agosto"><span class="cf-interest-question">Caso seja poss&#237;vel abrir nas duas &#250;ltimas semanas de agosto, estaria interessado?</span>Sim, tenho interesse.</label>
+          </div>
+        </div>
       </div>
 
       <hr class="cf-divider">
@@ -352,7 +383,7 @@
     </form>
 
     <div class="cf-footer" id="cf-footer">
-      Apoio: <strong>Junta de Freguesia de Canas de Santa Maria</strong> &amp; <strong>Munic&#237;pio de Tondela</strong><br>
+      Apoio: <strong>Freguesia de Canas de Santa Maria</strong> &amp; <strong>Munic&#237;pio de Tondela</strong><br>
       D&#250;vidas: Professora T&#226;nia Almeida &middot; <a href="tel:961142239">961 142 239</a> &middot; <a href="mailto:tanialmeida1981@gmail.com">tanialmeida1981@gmail.com</a>
     </div>
 
@@ -551,7 +582,8 @@ document.getElementById('cf-form').addEventListener('submit', function(e) {
     ee2_telemovel:      hasEE2 ? document.getElementById('ee2_telemovel').value.trim() : '',
     ee2_email:          hasEE2 ? document.getElementById('ee2_email').value.trim() : '',
     semanas:            getSelectedWeeks(),
-    regulamento_aceite: document.getElementById('reg-check').checked
+    regulamento_aceite: document.getElementById('reg-check').checked,
+    interesse_agosto: document.getElementById('interesse-agosto').checked
   };
 
   var formData = new URLSearchParams();
