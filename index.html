@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscrição – Campo de Férias 2026 · Canas de Santa Maria</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #f0fdf4;
+      min-height: 100vh;
+      padding: 32px 16px;
+      color: #1f2937;
+    }
+
+    .page-wrap {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* ── HERO ── */
+    .cf-hero {
+      background: linear-gradient(135deg, #3bb273 0%, #1a7a4a 100%);
+      border-radius: 20px 20px 0 0;
+      padding: 32px 32px 28px;
+      text-align: center;
+    }
+
+    .cf-hero-badge {
+      display: inline-block;
+      background: #ffd93d;
+      color: #7a4e00;
+      font-family: 'Fredoka One', cursive;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 16px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .cf-hero h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 36px;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .cf-hero h1 span { color: #ffd93d; }
+
+    .cf-hero p {
+      color: rgba(255,255,255,0.85);
+      font-size: 14px;
+    }
+
+    .cf-pills {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .cf-pill {
+      background: rgba(255,255,255,0.18);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 13px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    /* ── CARD BODY ── */
+    .cf-card {
+      background: #fffdf5;
+      border-radius: 0 0 20px 20px;
+      padding: 32px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+    }
+
+    /* ── SECTION ── */
+    .cf-section { margin-bottom: 32px; }
+
+    .cf-section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 2px dashed #e5e7eb;
+    }
+
+    .cf-section-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .icon-green { background: #d4f0e0; }
+    .icon-blue  { background: #dbeafe; }
+    .icon-amber { background: #fef3c7; }
+    .icon-pink  { background: #fce7f3; }
+
+    .cf-section-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 17px;
+    }
+
+    .title-green { color: #1a7a4a; }
+    .title-blue  { color: #1d4ed8; }
+    .title-amber { color: #92400e; }
+    .title-pink  { color: #9d174d; }
+
+    /* ── GRID ── */
+    .cf-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .span2 { grid-column: span 2; }
+
+    @media (max-width: 480px) {
+      .cf-grid { grid-template-columns: 1fr; }
+      .span2 { grid-column: span 1; }
+    }
+
+    /* ── FIELDS ── */
+    .cf-field { display: flex; flex-direction: column; gap: 5px; }
+
+    .cf-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .cf-label .req { color: #ef4444; margin-left: 2px; }
+
+    .cf-input {
+      background: #fff;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 10px 13px;
+      font-size: 14px;
+      font-family: 'Nunito', sans-serif;
+      color: #1f2937;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .cf-input:focus {
+      border-color: #3bb273;
+      box-shadow: 0 0 0 3px rgba(59,178,115,0.15);
+    }
+
+    .cf-input.error {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239,68,68,0.1);
+    }
+
+    .cf-error-msg {
+      font-size: 11px;
+      color: #ef4444;
+      font-weight: 600;
+      display: none;
+    }
+
+    .cf-error-msg.visible { display: block; }
+
+    select.cf-input {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+    }
+
+    /* ── DIVIDER ── */
+    .cf-divider {
+      border: none;
+      border-top: 2px dashed #e5e7eb;
+      margin: 0 0 28px;
+    }
+
+    /* ── SECOND RESPONSIBLE ── */
+    .add-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 2px dashed #3bb273;
+      color: #1a7a4a;
+      border-radius: 12px;
+      padding: 11px 18px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 16px;
+      transition: background 0.15s;
+    }
+
+    .add-btn:hover { background: #f0fdf4; }
+
+    .second-resp {
+      margin-top: 18px;
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      border-radius: 14px;
+      padding: 18px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .second-resp-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .second-resp-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 14px;
+      color: #1a7a4a;
+    }
+
+    .remove-btn {
+      background: #fee2e2;
+      border: none;
+      color: #b91c1c;
+      border-radius: 8px;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1;
+      transition: background 0.15s;
+    }
+
+    .remove-btn:hover { background: #fecaca; }
+
+    /* ── WEEKS ── */
+    .cf-weeks {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+      .cf-weeks { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .cf-week {
+      background: #fff;
+      border: 2px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 12px 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .cf-week:hover { border-color: #3bb273; background: #f0fdf4; }
+
+    .cf-week.active {
+      border-color: #3bb273;
+      background: #d4f0e0;
+    }
+
+    .cf-week-num {
+      font-family: 'Fredoka One', cursive;
+      font-size: 20px;
+      color: #1a7a4a;
+      line-height: 1;
+    }
+
+    .cf-week-dates {
+      font-size: 10px;
+      color: #6b7280;
+      margin-top: 4px;
+      font-weight: 700;
+    }
+
+    .weeks-error {
+      font-size: 12px;
+      color: #ef4444;
+      font-weight: 600;
+      margin-top: 8px;
+      display: none;
+    }
+
+    .weeks-error.visible { display: block; }
+
+    /* ── REGULAMENTO ── */
+    .cf-reg-box {
+      background: #fff8e1;
+      border: 1.5px solid #ffd93d;
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .cf-reg-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .cf-reg-label {
+      font-weight: 700;
+      font-size: 13px;
+      color: #92400e;
+    }
+
+    .cf-reg-btn {
+      background: #ffd93d;
+      color: #7a4e00;
+      border: none;
+      border-radius: 8px;
+      padding: 7px 16px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .cf-reg-btn:hover { background: #f5c800; }
+
+    .cf-checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .cf-checkbox-row input[type="checkbox"] {
+      margin-top: 2px;
+      accent-color: #3bb273;
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .cf-checkbox-label {
+      font-size: 13px;
+      color: #92400e;
+      line-height: 1.5;
+      cursor: pointer;
+    }
+
+    /* ── SUBMIT ── */
+    .cf-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #3bb273, #1a7a4a);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 16px;
+      font-family: 'Fredoka One', cursive;
+      font-size: 20px;
+      cursor: pointer;
+      margin-top: 10px;
+      letter-spacing: 0.5px;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+
+    .cf-submit:hover { opacity: 0.92; }
+    .cf-submit:active { transform: scale(0.99); }
+    .cf-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* ── FOOTER ── */
+    .cf-footer {
+      text-align: center;
+      padding: 16px 32px 4px;
+      font-size: 12px;
+      color: #9ca3af;
+      line-height: 1.8;
+    }
+
+    .cf-footer strong { color: #1a7a4a; }
+
+    /* ── SUCCESS STATE ── */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 48px 32px;
+    }
+
+    .success-icon {
+      width: 72px;
+      height: 72px;
+      background: #d4f0e0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      margin: 0 auto 20px;
+    }
+
+    .success-screen h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 26px;
+      color: #1a7a4a;
+      margin-bottom: 10px;
+    }
+
+    .success-screen p {
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.7;
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal-box {
+      background: #fff;
+      border-radius: 18px;
+      width: 100%;
+      max-width: 540px;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+
+    .modal-header {
+      padding: 18px 22px;
+      background: #1a7a4a;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .modal-header h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 17px;
+      color: #fff;
+    }
+
+    .modal-close {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 700;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      transition: background 0.15s;
+    }
+
+    .modal-close:hover { background: rgba(255,255,255,0.3); }
+
+    .modal-body {
+      padding: 22px;
+      overflow-y: auto;
+      font-size: 14px;
+      line-height: 1.8;
+      color: #374151;
+      flex: 1;
+    }
+
+    .modal-body h3 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 15px;
+      color: #1a7a4a;
+      margin: 18px 0 6px;
+    }
+
+    .modal-body h3:first-child { margin-top: 0; }
+
+    .modal-footer {
+      padding: 14px 22px;
+      border-top: 1px solid #e5e7eb;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .modal-footer button {
+      background: #3bb273;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 24px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .modal-footer button:hover { background: #2a9960; }
+  </style>
+</head>
+<body>
+
+<!-- MODAL REGULAMENTO -->
+<div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2 id="modal-title">📄 Regulamento Interno</h2>
+      <button class="modal-close" onclick="closeModal()" aria-label="Fechar">×</button>
+    </div>
+    <div class="modal-body">
+      <h3>1. Disposições gerais</h3>
+      <p>O Campo de Férias funciona nas instalações da Escola Básica de Canas de Santa Maria, de 1 a 31 de julho de 2026, das 8h00 às 18h30, nos dias úteis.</p>
+
+      <h3>2. Admissão</h3>
+      <p>São admitidas crianças com idades compreendidas entre os 6 e os 12 anos. A inscrição só se considera válida após entrega presencial dos documentos adicionais exigidos (ficha de saúde e autorização de levantamento assinada).</p>
+
+      <h3>3. Entrega e levantamento</h3>
+      <p>A entrega das crianças deve ser efetuada até às 9h30. O levantamento deve ocorrer até às 18h30. Após esse horário poderá ser cobrada uma taxa por cada 15 minutos de atraso. Só podem levantar a criança os adultos indicados na ficha de autorização entregue presencialmente.</p>
+
+      <h3>4. Comportamento</h3>
+      <p>Espera-se que todas as crianças respeitem os monitores, os colegas e os espaços, contribuindo para um ambiente saudável, seguro e inclusivo. Comportamentos repetidamente inadequados poderão implicar a exclusão do programa.</p>
+
+      <h3>5. Saúde e medicação</h3>
+      <p>Crianças com febre ou doenças transmissíveis não devem frequentar o campo nesse dia. A administração de medicação apenas é efetuada mediante autorização escrita entregue presencialmente.</p>
+
+      <h3>6. Responsabilidade</h3>
+      <p>A organização não se responsabiliza por objetos de valor trazidos pelas crianças. Em caso de acidente, os encarregados de educação serão contactados de imediato através dos contactos fornecidos nesta ficha.</p>
+
+      <h3>7. Proteção de dados</h3>
+      <p>Os dados recolhidos neste formulário destinam-se exclusivamente à gestão das inscrições do Campo de Férias 2026, sendo tratados pela Freguesia de Canas de Santa Maria ao abrigo do RGPD. Não serão partilhados com terceiros.</p>
+    </div>
+    <div class="modal-footer">
+      <button onclick="closeModal()">Li e compreendi</button>
+    </div>
+  </div>
+</div>
+
+<!-- FORMULÁRIO -->
+<div class="page-wrap">
+  <div class="cf-hero">
+    <div class="cf-hero-badge">Freguesia de Canas de Santa Maria</div>
+    <h1>Campo de <span>Férias</span> 2026</h1>
+    <p>Ficha de inscrição · 1 a 31 de julho</p>
+    <div class="cf-pills">
+      <span class="cf-pill">📍 EB Canas de Santa Maria</span>
+      <span class="cf-pill">🕗 8h00 – 18h30</span>
+      <span class="cf-pill">👧 6 a 12 anos</span>
+    </div>
+  </div>
+
+  <div class="cf-card">
+
+    <!-- SUCCESS -->
+    <div class="success-screen" id="success-screen">
+      <div class="success-icon">✅</div>
+      <h2>Inscrição enviada!</h2>
+      <p>
+        A inscrição foi recebida com sucesso.<br>
+        Vai receber um email de confirmação em breve.<br><br>
+        <strong>Importante:</strong> a inscrição só fica completa após a entrega presencial da ficha de saúde e da autorização de levantamento assinada.
+      </p>
+    </div>
+
+    <form id="cf-form" novalidate>
+
+      <!-- SECÇÃO 1 – CRIANÇA -->
+      <div class="cf-section">
+        <div class="cf-section-header">
+          <div class="cf-section-icon icon-green">👦</div>
+          <span class="cf-section-title title-green">Dados da criança</span>
+        </div>
+        <div class="cf-grid">
+          <div class="cf-field span2">
+            <label class="cf-label" for="crianca_nome">Nome completo <span class="req">*</span></label>
+            <input class="cf-input" type="text" id="crianca_nome" name="crianca_nome" placeholder="Nome completo da criança" autocomplete="off">
+            <span class="cf-error-msg" id="err-crianca_nome">Campo obrigatório</span>
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="crianca_nascimento">Data de nascimento <span class="req">*</span></label>
+            <input class="cf-input" type="date" id="crianca_nascimento" name="crianca_nascimento">
+            <span class="cf-error-msg" id="err-crianca_nascimento">Campo obrigatório</span>
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="crianca_escola">Escola que frequenta <span class="req">*</span></label>
+            <input class="cf-input" type="text" id="crianca_escola" name="crianca_escola" placeholder="Nome da escola">
+            <span class="cf-error-msg" id="err-crianca_escola">Campo obrigatório</span>
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="crianca_ano">Ano de escolaridade <span class="req">*</span></label>
+            <select class="cf-input" id="crianca_ano" name="crianca_ano">
+              <option value="">Selecionar...</option>
+              <option>1.º ano</option>
+              <option>2.º ano</option>
+              <option>3.º ano</option>
+              <option>4.º ano</option>
+              <option>5.º ano</option>
+              <option>6.º ano</option>
+            </select>
+            <span class="cf-error-msg" id="err-crianca_ano">Campo obrigatório</span>
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="crianca_cc">Nº cartão de cidadão <span class="req">*</span></label>
+            <input class="cf-input" type="text" id="crianca_cc" name="crianca_cc" placeholder="00000000 0 ZZ0">
+            <span class="cf-error-msg" id="err-crianca_cc">Campo obrigatório</span>
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="crianca_utente">Nº utente de saúde <span class="req">*</span></label>
+            <input class="cf-input" type="text" id="crianca_utente" name="crianca_utente" placeholder="000 000 000">
+            <span class="cf-error-msg" id="err-crianca_utente">Campo obrigatório</span>
+          </div>
+        </div>
+      </div>
+
+      <hr class="cf-divider">
+
+      <!-- SECÇÃO 2 – EE PRINCIPAL -->
+      <div class="cf-section">
+        <div class="cf-section-header">
+          <div class="cf-section-icon icon-blue">🪪</div>
+          <span class="cf-section-title title-blue">Encarregado de educação</span>
+        </div>
+        <div class="cf-grid">
+          <div class="cf-field span2">
+            <label class="cf-label" for="ee1_nome">Nome completo <span class="req">*</span></label>
+            <input class="cf-input" type="text" id="ee1_nome" name="ee1_nome" placeholder="Nome do encarregado de educação">
+            <span class="cf-error-msg" id="err-ee1_nome">Campo obrigatório</span>
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="ee1_parentesco">Grau de parentesco <span class="req">*</span></label>
+            <select class="cf-input" id="ee1_parentesco" name="ee1_parentesco">
+              <option value="">Selecionar...</option>
+              <option>Pai / Mãe</option>
+              <option>Avô / Avó</option>
+              <option>Tio / Tia</option>
+              <option>Outro</option>
+            </select>
+            <span class="cf-error-msg" id="err-ee1_parentesco">Campo obrigatório</span>
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="ee1_nif">NIF <span class="req">*</span></label>
+            <input class="cf-input" type="text" id="ee1_nif" name="ee1_nif" placeholder="000 000 000">
+            <span class="cf-error-msg" id="err-ee1_nif">Campo obrigatório</span>
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="ee1_telemovel">Telemóvel <span class="req">*</span></label>
+            <input class="cf-input" type="tel" id="ee1_telemovel" name="ee1_telemovel" placeholder="9XX XXX XXX">
+            <span class="cf-error-msg" id="err-ee1_telemovel">Campo obrigatório</span>
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="ee1_email">Email <span class="req">*</span></label>
+            <input class="cf-input" type="email" id="ee1_email" name="ee1_email" placeholder="email@exemplo.pt">
+            <span class="cf-error-msg" id="err-ee1_email">Email inválido</span>
+          </div>
+          <div class="cf-field span2">
+            <label class="cf-label" for="ee1_morada">Morada <span class="req">*</span></label>
+            <input class="cf-input" type="text" id="ee1_morada" name="ee1_morada" placeholder="Rua, nº, localidade, código postal">
+            <span class="cf-error-msg" id="err-ee1_morada">Campo obrigatório</span>
+          </div>
+        </div>
+
+        <!-- EE2 container -->
+        <div id="second-resp-container"></div>
+
+        <button type="button" class="add-btn" id="add-btn" onclick="addSecond()">
+          ➕ Adicionar segundo responsável
+        </button>
+      </div>
+
+      <hr class="cf-divider">
+
+      <!-- SECÇÃO 3 – SEMANAS -->
+      <div class="cf-section">
+        <div class="cf-section-header">
+          <div class="cf-section-icon icon-amber">📅</div>
+          <span class="cf-section-title title-amber">Semanas pretendidas <span style="color:#ef4444;font-size:14px">*</span></span>
+        </div>
+        <div class="cf-weeks" id="weeks-container">
+          <div class="cf-week" data-semana="S1 (1–3 jul)" onclick="toggleWeek(this)">
+            <div class="cf-week-num">S1</div>
+            <div class="cf-week-dates">1–3 jul</div>
+          </div>
+          <div class="cf-week" data-semana="S2 (6–10 jul)" onclick="toggleWeek(this)">
+            <div class="cf-week-num">S2</div>
+            <div class="cf-week-dates">6–10 jul</div>
+          </div>
+          <div class="cf-week" data-semana="S3 (13–17 jul)" onclick="toggleWeek(this)">
+            <div class="cf-week-num">S3</div>
+            <div class="cf-week-dates">13–17 jul</div>
+          </div>
+          <div class="cf-week" data-semana="S4 (20–24 jul)" onclick="toggleWeek(this)">
+            <div class="cf-week-num">S4</div>
+            <div class="cf-week-dates">20–24 jul</div>
+          </div>
+          <div class="cf-week" data-semana="S5 (27–31 jul)" onclick="toggleWeek(this)">
+            <div class="cf-week-num">S5</div>
+            <div class="cf-week-dates">27–31 jul</div>
+          </div>
+        </div>
+        <p class="weeks-error" id="weeks-error">Seleciona pelo menos uma semana.</p>
+      </div>
+
+      <hr class="cf-divider">
+
+      <!-- SECÇÃO 4 – REGULAMENTO -->
+      <div class="cf-section">
+        <div class="cf-section-header">
+          <div class="cf-section-icon icon-pink">📋</div>
+          <span class="cf-section-title title-pink">Regulamento</span>
+        </div>
+        <div class="cf-reg-box">
+          <div class="cf-reg-top">
+            <span class="cf-reg-label">⚠️ Leitura obrigatória</span>
+            <button type="button" class="cf-reg-btn" onclick="openModal()">👁 Ler regulamento</button>
+          </div>
+          <div class="cf-checkbox-row">
+            <input type="checkbox" id="reg-check" name="reg-check">
+            <label class="cf-checkbox-label" for="reg-check">
+              Declaro que li e aceito o regulamento interno do Campo de Férias 2026, organizado pela Freguesia de Canas de Santa Maria.
+            </label>
+          </div>
+          <span class="cf-error-msg" id="err-reg" style="margin-top:8px">É necessário aceitar o regulamento para submeter a inscrição.</span>
+        </div>
+      </div>
+
+      <button type="submit" class="cf-submit" id="submit-btn">Enviar inscrição ✓</button>
+
+    </form><!-- /form -->
+
+    <div class="cf-footer">
+      Apoio: <strong>Freguesia de Canas de Santa Maria</strong> &amp; <strong>Município de Tondela</strong><br>
+      Dúvidas: Professora Tânia Almeida · <a href="tel:961142239" style="color:#1a7a4a;font-weight:700">961 142 239</a>
+    </div>
+
+  </div><!-- /cf-card -->
+</div><!-- /page-wrap -->
+
+<script>
+  // ─── CONFIGURAÇÃO ──────────────────────────────────────────
+  const APPS_SCRIPT_URL = 'SUBSTITUIR_PELO_URL_DO_APPS_SCRIPT';
+  // ───────────────────────────────────────────────────────────
+
+  // Modal
+  function openModal() {
+    document.getElementById('modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Fechar modal ao clicar fora
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // Semanas
+  function toggleWeek(el) {
+    el.classList.toggle('active');
+    document.getElementById('weeks-error').classList.remove('visible');
+  }
+
+  function getSelectedWeeks() {
+    return Array.from(document.querySelectorAll('.cf-week.active'))
+      .map(el => el.dataset.semana);
+  }
+
+  // Segundo responsável
+  function addSecond() {
+    document.getElementById('add-btn').style.display = 'none';
+    document.getElementById('second-resp-container').innerHTML = `
+      <div class="second-resp">
+        <div class="second-resp-header">
+          <span class="second-resp-title">👤 Segundo responsável</span>
+          <button type="button" class="remove-btn" onclick="removeSecond()" aria-label="Remover">✕</button>
+        </div>
+        <div class="cf-grid">
+          <div class="cf-field span2">
+            <label class="cf-label" for="ee2_nome">Nome completo <span class="req">*</span></label>
+            <input class="cf-input" type="text" id="ee2_nome" name="ee2_nome" placeholder="Nome do responsável">
+            <span class="cf-error-msg" id="err-ee2_nome">Campo obrigatório</span>
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="ee2_parentesco">Grau de parentesco <span class="req">*</span></label>
+            <select class="cf-input" id="ee2_parentesco" name="ee2_parentesco">
+              <option value="">Selecionar...</option>
+              <option>Pai / Mãe</option>
+              <option>Avô / Avó</option>
+              <option>Tio / Tia</option>
+              <option>Outro</option>
+            </select>
+            <span class="cf-error-msg" id="err-ee2_parentesco">Campo obrigatório</span>
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="ee2_telemovel">Telemóvel <span class="req">*</span></label>
+            <input class="cf-input" type="tel" id="ee2_telemovel" name="ee2_telemovel" placeholder="9XX XXX XXX">
+            <span class="cf-error-msg" id="err-ee2_telemovel">Campo obrigatório</span>
+          </div>
+          <div class="cf-field span2">
+            <label class="cf-label" for="ee2_email">Email</label>
+            <input class="cf-input" type="email" id="ee2_email" name="ee2_email" placeholder="email@exemplo.pt (opcional)">
+            <span class="cf-error-msg" id="err-ee2_email">Email inválido</span>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function removeSecond() {
+    document.getElementById('second-resp-container').innerHTML = '';
+    document.getElementById('add-btn').style.display = 'flex';
+  }
+
+  // Validação
+  function required(id) {
+    const el = document.getElementById(id);
+    const val = el ? el.value.trim() : '';
+    const err = document.getElementById('err-' + id);
+    if (!val) {
+      el.classList.add('error');
+      if (err) err.classList.add('visible');
+      return false;
+    }
+    el.classList.remove('error');
+    if (err) err.classList.remove('visible');
+    return true;
+  }
+
+  function validEmail(id) {
+    const el = document.getElementById(id);
+    if (!el) return true;
+    const val = el.value.trim();
+    const err = document.getElementById('err-' + id);
+    const ok = val === '' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+    if (!ok) {
+      el.classList.add('error');
+      if (err) err.classList.add('visible');
+    } else {
+      el.classList.remove('error');
+      if (err) err.classList.remove('visible');
+    }
+    return ok;
+  }
+
+  function validate() {
+    let ok = true;
+
+    // Criança
+    ['crianca_nome','crianca_nascimento','crianca_escola','crianca_ano','crianca_cc','crianca_utente'].forEach(f => {
+      if (!required(f)) ok = false;
+    });
+
+    // EE1
+    ['ee1_nome','ee1_parentesco','ee1_nif','ee1_telemovel','ee1_morada'].forEach(f => {
+      if (!required(f)) ok = false;
+    });
+    if (!required('ee1_email') || !validEmail('ee1_email')) ok = false;
+
+    // EE2 (se existir)
+    if (document.getElementById('ee2_nome')) {
+      ['ee2_nome','ee2_parentesco','ee2_telemovel'].forEach(f => {
+        if (!required(f)) ok = false;
+      });
+      if (!validEmail('ee2_email')) ok = false;
+    }
+
+    // Semanas
+    if (getSelectedWeeks().length === 0) {
+      document.getElementById('weeks-error').classList.add('visible');
+      ok = false;
+    }
+
+    // Regulamento
+    const regCheck = document.getElementById('reg-check');
+    const regErr = document.getElementById('err-reg');
+    if (!regCheck.checked) {
+      regErr.classList.add('visible');
+      ok = false;
+    } else {
+      regErr.classList.remove('visible');
+    }
+
+    return ok;
+  }
+
+  // Submissão
+  document.getElementById('cf-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    if (!validate()) {
+      document.querySelector('.cf-input.error')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'A enviar...';
+
+    const payload = {
+      crianca_nome:       document.getElementById('crianca_nome').value.trim(),
+      crianca_nascimento: document.getElementById('crianca_nascimento').value,
+      crianca_escola:     document.getElementById('crianca_escola').value.trim(),
+      crianca_ano:        document.getElementById('crianca_ano').value,
+      crianca_cc:         document.getElementById('crianca_cc').value.trim(),
+      crianca_utente:     document.getElementById('crianca_utente').value.trim(),
+      ee1_nome:           document.getElementById('ee1_nome').value.trim(),
+      ee1_parentesco:     document.getElementById('ee1_parentesco').value,
+      ee1_nif:            document.getElementById('ee1_nif').value.trim(),
+      ee1_telemovel:      document.getElementById('ee1_telemovel').value.trim(),
+      ee1_email:          document.getElementById('ee1_email').value.trim(),
+      ee1_morada:         document.getElementById('ee1_morada').value.trim(),
+      ee2_nome:           document.getElementById('ee2_nome')?.value.trim() || '',
+      ee2_parentesco:     document.getElementById('ee2_parentesco')?.value || '',
+      ee2_telemovel:      document.getElementById('ee2_telemovel')?.value.trim() || '',
+      ee2_email:          document.getElementById('ee2_email')?.value.trim() || '',
+      semanas:            getSelectedWeeks(),
+    };
+
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
+      });
+    } catch (_) {}
+
+    // Mostrar ecrã de sucesso
+    document.getElementById('cf-form').style.display = 'none';
+    document.querySelector('.cf-footer').style.display = 'none';
+    document.getElementById('success-screen').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+</body>
+</html>
