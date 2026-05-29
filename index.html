@@ -96,6 +96,9 @@
     .modal-footer { padding: 14px 22px; border-top: 1px solid #e5e7eb; text-align: right; flex-shrink: 0; }
     .modal-footer button { background: #3bb273; color: #fff; border: none; border-radius: 10px; padding: 9px 24px; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.15s; }
     .modal-footer button:hover { background: #2a9960; }
+
+    .submit-error-box { display:none; margin-top:12px; background:#fee2e2; border:1.5px solid #fecaca; color:#991b1b; border-radius:12px; padding:12px 14px; font-size:13px; font-weight:700; line-height:1.5; }
+    .submit-error-box.visible { display:block; }
   </style>
 </head>
 <body>
@@ -165,8 +168,8 @@
 
     <div class="success-screen" id="success-screen">
       <div class="success-icon">&#10003;</div>
-      <h2>Inscri&#231;&#227;o enviada!</h2>
-      <p>A inscri&#231;&#227;o foi recebida com sucesso.<br>Vai receber um email de confirma&#231;&#227;o em breve.</p>
+      <h2 id="success-title">Inscri&#231;&#227;o enviada!</h2>
+      <p id="success-text">A inscri&#231;&#227;o foi recebida com sucesso.<br>Vai receber um email de confirma&#231;&#227;o em breve.</p>
     </div>
 
     <form id="cf-form" novalidate>
@@ -324,6 +327,7 @@
       </div>
 
       <button type="submit" class="cf-submit" id="submit-btn">Enviar inscri&#231;&#227;o &#10003;</button>
+      <div class="submit-error-box" id="submit-error"></div>
 
     </form>
 
@@ -475,6 +479,28 @@ function validate() {
   return ok;
 }
 
+
+function showSubmitError(message) {
+  var box = document.getElementById('submit-error');
+  box.textContent = message;
+  box.classList.add('visible');
+}
+
+function clearSubmitError() {
+  var box = document.getElementById('submit-error');
+  box.textContent = '';
+  box.classList.remove('visible');
+}
+
+function showSuccess(title, text) {
+  document.getElementById('success-title').textContent = title;
+  document.getElementById('success-text').innerHTML = text;
+  document.getElementById('cf-form').style.display = 'none';
+  document.getElementById('cf-footer').style.display = 'none';
+  document.getElementById('success-screen').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 document.getElementById('cf-form').addEventListener('submit', function(e) {
   e.preventDefault();
   if (!validate()) {
@@ -504,19 +530,43 @@ document.getElementById('cf-form').addEventListener('submit', function(e) {
     ee2_parentesco:     hasEE2 ? document.getElementById('ee2_parentesco').value : '',
     ee2_telemovel:      hasEE2 ? document.getElementById('ee2_telemovel').value.trim() : '',
     ee2_email:          hasEE2 ? document.getElementById('ee2_email').value.trim() : '',
-    semanas:            getSelectedWeeks()
+    semanas:            getSelectedWeeks(),
+    regulamento_aceite: document.getElementById('reg-check').checked
   };
 
   var formData = new URLSearchParams();
   formData.append('data', JSON.stringify(payload));
 
-  fetch(APPS_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: formData })
-    .catch(function() {})
-    .finally(function() {
-      document.getElementById('cf-form').style.display = 'none';
-      document.getElementById('cf-footer').style.display = 'none';
-      document.getElementById('success-screen').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+  clearSubmitError();
+
+  fetch(APPS_SCRIPT_URL, { method: 'POST', body: formData })
+    .then(function(response) {
+      if (!response.ok) {
+        throw new Error('Resposta inválida do servidor.');
+      }
+      return response.json();
+    })
+    .then(function(result) {
+      if (!result || result.status !== 'ok') {
+        throw new Error(result && result.message ? result.message : 'Não foi possível gravar a inscrição.');
+      }
+
+      if (result.duplicado) {
+        showSuccess(
+          'Inscrição já registada',
+          'Esta inscrição já existia no sistema.<br>Não foi criada uma segunda inscrição duplicada.'
+        );
+      } else {
+        showSuccess(
+          'Inscrição enviada!',
+          'A inscrição foi recebida com sucesso.<br>Vai receber um email de confirmação em breve.'
+        );
+      }
+    })
+    .catch(function(err) {
+      btn.disabled = false;
+      btn.textContent = 'Enviar inscrição ✓';
+      showSubmitError('Não foi possível confirmar a submissão. Verifica a ligação à internet e tenta novamente. Se o problema continuar, contacta a Professora Tânia Almeida. Detalhe: ' + err.message);
     });
 });
 </script>
