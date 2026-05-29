@@ -960,13 +960,13 @@
       semanas:            getSelectedWeeks(),
     };
 
-    try {
-      await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(payload)
-      });
+    const formData = new URLSearchParams();
+formData.append('data', JSON.stringify(payload));
+await fetch(APPS_SCRIPT_URL, {
+  method: 'POST',
+  mode: 'no-cors',
+  body: formData
+});
     } catch (_) {}
 
     // Mostrar ecrã de sucesso
