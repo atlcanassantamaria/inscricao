@@ -75,12 +75,14 @@
     .cf-week-dates { font-size: 10px; color: #6b7280; margin-top: 4px; font-weight: 700; }
     .cf-week-price { position: absolute; top: 5px; right: 7px; background: #ffd93d; color: #7a4e00; border-radius: 999px; padding: 2px 6px; font-size: 10px; font-weight: 800; line-height: 1.2; }
     .cf-week-status { font-size: 9.5px; color: #1a7a4a; margin-top: 5px; font-weight: 800; line-height: 1.15; min-height: 12px; }
-    .cf-week.esgotada { background: #f3f4f6; border-color: #d1d5db; cursor: not-allowed; opacity: 0.78; }
-    .cf-week.esgotada:hover { background: #f3f4f6; border-color: #d1d5db; }
+    .cf-week.esgotada { background: #f3f4f6; border-color: #d1d5db; cursor: pointer; opacity: 0.86; }
+    .cf-week.esgotada:hover { background: #fff8e1; border-color: #ffd93d; }
     .cf-week.esgotada .cf-week-num,
     .cf-week.esgotada .cf-week-dates { color: #9ca3af; }
     .cf-week.esgotada .cf-week-price { background: #e5e7eb; color: #6b7280; }
     .cf-week.esgotada .cf-week-status { color: #b91c1c; }
+    .cf-week.waitlist-active { border-color: #f59e0b; background: #fff8e1; }
+    .cf-week.waitlist-active .cf-week-status { color: #92400e; }
     .weeks-error { font-size: 12px; color: #ef4444; font-weight: 600; margin-top: 8px; display: none; }
     .weeks-error.visible { display: block; }
 
@@ -355,7 +357,7 @@
             <div class="cf-week-status" aria-live="polite"></div>
           </div>
         </div>
-        <p class="weeks-error" id="weeks-error">Seleciona pelo menos uma semana.</p>
+        <p class="weeks-error" id="weeks-error">Seleciona pelo menos uma semana com vaga ou uma semana em lista de espera.</p>
 
         <div class="cf-info-box">
           <p><strong>Irm&#227;os:</strong> desconto de 10% (semana).</p>
@@ -425,6 +427,9 @@ var disponibilidadeSemanas = {};
 
 function toggleWeek(el) {
   if (el.classList.contains('esgotada')) {
+    el.classList.toggle('waitlist-active');
+    document.getElementById('weeks-error').classList.remove('visible');
+    atualizarTextoListaEspera(el);
     return;
   }
 
@@ -439,6 +444,26 @@ function getSelectedWeeks() {
     result.push(nodes[i].getAttribute('data-semana'));
   }
   return result;
+}
+
+function getWaitlistWeeks() {
+  var nodes = document.querySelectorAll('.cf-week.waitlist-active');
+  var result = [];
+  for (var i = 0; i < nodes.length; i++) {
+    result.push(nodes[i].getAttribute('data-semana'));
+  }
+  return result;
+}
+
+function atualizarTextoListaEspera(el) {
+  var status = el.querySelector('.cf-week-status');
+  if (!status) { return; }
+
+  if (el.classList.contains('waitlist-active')) {
+    status.textContent = 'Lista espera';
+  } else {
+    status.textContent = 'Esgotada';
+  }
 }
 
 function obterCodigoSemanaFront(semana) {
@@ -474,10 +499,12 @@ function aplicarDisponibilidadeSemanas(info) {
     if (dados.disponivel === false || Number(dados.vagas || 0) <= 0) {
       el.classList.remove('active');
       el.classList.add('esgotada');
-      el.setAttribute('aria-disabled', 'true');
-      el.setAttribute('title', 'Semana esgotada');
+      el.removeAttribute('aria-disabled');
+      el.setAttribute('title', 'Semana esgotada — clique para lista de espera');
+      atualizarTextoListaEspera(el);
     } else {
       el.classList.remove('esgotada');
+      el.classList.remove('waitlist-active');
       el.removeAttribute('aria-disabled');
       el.setAttribute('title', dados.vagas + ' vaga(s) disponível(is)');
     }
@@ -598,7 +625,7 @@ function validate() {
     }
     if (!fieldEmail('ee2_email', false)) { ok = false; }
   }
-  if (getSelectedWeeks().length === 0) {
+  if (getSelectedWeeks().length === 0 && getWaitlistWeeks().length === 0) {
     document.getElementById('weeks-error').classList.add('visible');
     ok = false;
   }
@@ -665,6 +692,7 @@ document.getElementById('cf-form').addEventListener('submit', function(e) {
     ee2_telemovel:      hasEE2 ? document.getElementById('ee2_telemovel').value.trim() : '',
     ee2_email:          hasEE2 ? document.getElementById('ee2_email').value.trim() : '',
     semanas:            getSelectedWeeks(),
+    lista_espera:       getWaitlistWeeks(),
     regulamento_aceite: document.getElementById('reg-check').checked,
     interesse_agosto: document.getElementById('interesse-agosto').checked
   };
@@ -692,10 +720,25 @@ document.getElementById('cf-form').addEventListener('submit', function(e) {
           'Esta inscrição já existia no sistema.<br>Não foi criada uma segunda inscrição duplicada.'
         );
       } else {
-        showSuccess(
-          'Inscrição enviada!',
-          'A inscrição foi recebida com sucesso.<br>Vai receber um email de confirmação em breve.'
-        );
+        var listaEspera = Array.isArray(result.lista_espera) ? result.lista_espera : [];
+        var confirmadas = Array.isArray(result.semanas_confirmadas) ? result.semanas_confirmadas : [];
+
+        if (confirmadas.length && listaEspera.length) {
+          showSuccess(
+            'Inscrição enviada!',
+            'A inscrição foi recebida com sucesso.<br>Algumas semanas ficaram em lista de espera: <strong>' + listaEspera.join(', ') + '</strong>.<br>Vai receber um email de confirmação em breve.'
+          );
+        } else if (listaEspera.length && !confirmadas.length) {
+          showSuccess(
+            'Lista de espera registada!',
+            'O pedido foi recebido com sucesso.<br>A criança ficou em lista de espera para: <strong>' + listaEspera.join(', ') + '</strong>.<br>Entraremos em contacto caso surja vaga.'
+          );
+        } else {
+          showSuccess(
+            'Inscrição enviada!',
+            'A inscrição foi recebida com sucesso.<br>Vai receber um email de confirmação em breve.'
+          );
+        }
       }
     })
     .catch(function(err) {
@@ -703,7 +746,7 @@ document.getElementById('cf-form').addEventListener('submit', function(e) {
       btn.textContent = 'Enviar inscrição ✓';
 
       var detalhe = err && err.message ? err.message : '';
-      if (detalhe.indexOf('esgotada') !== -1 || detalhe.indexOf('vaga') !== -1) {
+      if (detalhe.indexOf('esgotada') !== -1 || detalhe.indexOf('vaga') !== -1 || detalhe.indexOf('lista de espera') !== -1) {
         showSubmitError(detalhe);
         carregarDisponibilidadeSemanas();
       } else {
