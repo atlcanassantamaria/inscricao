@@ -74,6 +74,13 @@
     .cf-week-num { font-family: 'Fredoka One', cursive; font-size: 20px; color: #1a7a4a; line-height: 1; }
     .cf-week-dates { font-size: 10px; color: #6b7280; margin-top: 4px; font-weight: 700; }
     .cf-week-price { position: absolute; top: 5px; right: 7px; background: #ffd93d; color: #7a4e00; border-radius: 999px; padding: 2px 6px; font-size: 10px; font-weight: 800; line-height: 1.2; }
+    .cf-week-status { font-size: 9.5px; color: #1a7a4a; margin-top: 5px; font-weight: 800; line-height: 1.15; min-height: 12px; }
+    .cf-week.esgotada { background: #f3f4f6; border-color: #d1d5db; cursor: not-allowed; opacity: 0.78; }
+    .cf-week.esgotada:hover { background: #f3f4f6; border-color: #d1d5db; }
+    .cf-week.esgotada .cf-week-num,
+    .cf-week.esgotada .cf-week-dates { color: #9ca3af; }
+    .cf-week.esgotada .cf-week-price { background: #e5e7eb; color: #6b7280; }
+    .cf-week.esgotada .cf-week-status { color: #b91c1c; }
     .weeks-error { font-size: 12px; color: #ef4444; font-weight: 600; margin-top: 8px; display: none; }
     .weeks-error.visible { display: block; }
 
@@ -309,36 +316,43 @@
             <div class="cf-week-price">21€</div>
             <div class="cf-week-num">S1</div>
             <div class="cf-week-dates">1&#8211;3 jul</div>
+            <div class="cf-week-status" aria-live="polite"></div>
           </div>
           <div class="cf-week" data-semana="S2 (6-10 jul)" onclick="toggleWeek(this)">
             <div class="cf-week-price">35€</div>
             <div class="cf-week-num">S2</div>
             <div class="cf-week-dates">6&#8211;10 jul</div>
+            <div class="cf-week-status" aria-live="polite"></div>
           </div>
           <div class="cf-week" data-semana="S3 (13-17 jul)" onclick="toggleWeek(this)">
             <div class="cf-week-price">35€</div>
             <div class="cf-week-num">S3</div>
             <div class="cf-week-dates">13&#8211;17 jul</div>
+            <div class="cf-week-status" aria-live="polite"></div>
           </div>
           <div class="cf-week" data-semana="S4 (20-24 jul)" onclick="toggleWeek(this)">
             <div class="cf-week-price">35€</div>
             <div class="cf-week-num">S4</div>
             <div class="cf-week-dates">20&#8211;24 jul</div>
+            <div class="cf-week-status" aria-live="polite"></div>
           </div>
           <div class="cf-week" data-semana="S5 (27-31 jul)" onclick="toggleWeek(this)">
             <div class="cf-week-price">35€</div>
             <div class="cf-week-num">S5</div>
             <div class="cf-week-dates">27&#8211;31 jul</div>
+            <div class="cf-week-status" aria-live="polite"></div>
           </div>
           <div class="cf-week" data-semana="S6 (1-4 set)" onclick="toggleWeek(this)">
             <div class="cf-week-price">28€</div>
             <div class="cf-week-num">S6</div>
             <div class="cf-week-dates">1&#8211;4 set</div>
+            <div class="cf-week-status" aria-live="polite"></div>
           </div>
           <div class="cf-week" data-semana="S7 (7-11 set)" onclick="toggleWeek(this)">
             <div class="cf-week-price">35€</div>
             <div class="cf-week-num">S7</div>
             <div class="cf-week-dates">7&#8211;11 set</div>
+            <div class="cf-week-status" aria-live="polite"></div>
           </div>
         </div>
         <p class="weeks-error" id="weeks-error">Seleciona pelo menos uma semana.</p>
@@ -407,19 +421,88 @@ document.getElementById('modal').addEventListener('click', function(e) {
   if (e.target === this) { closeModal(); }
 });
 
+var disponibilidadeSemanas = {};
+
 function toggleWeek(el) {
+  if (el.classList.contains('esgotada')) {
+    return;
+  }
+
   el.classList.toggle('active');
   document.getElementById('weeks-error').classList.remove('visible');
 }
 
 function getSelectedWeeks() {
-  var nodes = document.querySelectorAll('.cf-week.active');
+  var nodes = document.querySelectorAll('.cf-week.active:not(.esgotada)');
   var result = [];
   for (var i = 0; i < nodes.length; i++) {
     result.push(nodes[i].getAttribute('data-semana'));
   }
   return result;
 }
+
+function obterCodigoSemanaFront(semana) {
+  var match = String(semana || '').match(/^(S[1-7])\b/);
+  return match ? match[1] : '';
+}
+
+function textoVagas(vagas) {
+  if (vagas <= 0) { return 'Esgotada'; }
+  if (vagas === 1) { return '1 vaga'; }
+  return vagas + ' vagas';
+}
+
+function aplicarDisponibilidadeSemanas(info) {
+  disponibilidadeSemanas = info || {};
+
+  var weeks = document.querySelectorAll('.cf-week');
+  for (var i = 0; i < weeks.length; i++) {
+    var el = weeks[i];
+    var codigo = obterCodigoSemanaFront(el.getAttribute('data-semana'));
+    var dados = disponibilidadeSemanas[codigo];
+    var status = el.querySelector('.cf-week-status');
+
+    if (!dados) {
+      if (status) { status.textContent = ''; }
+      continue;
+    }
+
+    if (status) {
+      status.textContent = textoVagas(Number(dados.vagas || 0));
+    }
+
+    if (dados.disponivel === false || Number(dados.vagas || 0) <= 0) {
+      el.classList.remove('active');
+      el.classList.add('esgotada');
+      el.setAttribute('aria-disabled', 'true');
+      el.setAttribute('title', 'Semana esgotada');
+    } else {
+      el.classList.remove('esgotada');
+      el.removeAttribute('aria-disabled');
+      el.setAttribute('title', dados.vagas + ' vaga(s) disponível(is)');
+    }
+  }
+}
+
+function carregarDisponibilidadeSemanas() {
+  fetch(APPS_SCRIPT_URL + '?action=disponibilidade&t=' + Date.now())
+    .then(function(response) {
+      if (!response.ok) {
+        throw new Error('Não foi possível obter disponibilidade.');
+      }
+      return response.json();
+    })
+    .then(function(result) {
+      if (result && result.status === 'ok' && result.semanas) {
+        aplicarDisponibilidadeSemanas(result.semanas);
+      }
+    })
+    .catch(function(err) {
+      console.warn('Disponibilidade não carregada:', err);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', carregarDisponibilidadeSemanas);
 
 function addSecond() {
   document.getElementById('add-btn').style.display = 'none';
@@ -618,7 +701,14 @@ document.getElementById('cf-form').addEventListener('submit', function(e) {
     .catch(function(err) {
       btn.disabled = false;
       btn.textContent = 'Enviar inscrição ✓';
-      showSubmitError('Não foi possível confirmar a submissão. Verifica a ligação à internet e tenta novamente. Se o problema continuar, contacta a Professora Tânia Almeida. Detalhe: ' + err.message);
+
+      var detalhe = err && err.message ? err.message : '';
+      if (detalhe.indexOf('esgotada') !== -1 || detalhe.indexOf('vaga') !== -1) {
+        showSubmitError(detalhe);
+        carregarDisponibilidadeSemanas();
+      } else {
+        showSubmitError('Não foi possível confirmar a submissão. Verifica a ligação à internet e tenta novamente. Se o problema continuar, contacta a Professora Tânia Almeida. Detalhe: ' + detalhe);
+      }
     });
 });
 </script>
